@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PolarPurse</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Abel&display=swap" rel="stylesheet">
+    <style>
+      *{
+        font-family: 'Abel', sans-serif;
+      }
+      @media only screen and (max-width:791px) {
+        .form-responsive{
+          width: 90vw !important;
+        }
+        .note{
+            font-size:0.7rem !important;
+        }
+        .label-alokasi{
+            font-size:0.9rem !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="d-flex justify-content-center align-items-center mb-5 p-3" style="min-height:100vh !important;">
+      <form action="" class="d-flex flex-column align-items-center w-50 form-responsive">
+            <div class="mb-3 flex-1 d-flex align-items-center justify-content-start w-100">
+                <h1>PolarPurse - Kalkulator Alokasi Pendapatan</h1>
+            </div>
+            <div class="d-flex flex-1 justify-content-center align-items-center mb-3 w-100">
+                <span class="fs-6 fw-light text-danger note">
+                        Note: Tuliskan pendapatan anda dan pilih mau dialokasikan kemana pendapatan anda tersebut, kemudian tentukan range persentase berapa pendapatan yang ingin anda alokasikan hari ini.
+                </span>
+            </div>
+            <div class="input-group mb-3 flex-1 w-100">
+                <span class="input-group-text">Rp.</span>
+                <input type="text" class="form-control" aria-label="Amount (to the nearest rupiah)">
+                <span class="input-group-text">Cth. Rp. 2000,-</span>
+                <select class="form-select" aria-label="Default select example">
+                  <option selected>Alokasi</option>
+                  <option value="1">Menabung/Investasi</option>
+                  <option value="2">Beramal</option>
+                </select>
+            </div>
+            <div class="mb-3 flex-1 d-flex flex-column align-items-center justify-content-center w-100">
+              <div class="flex-1 w-100">
+                  <label for="customRange1" class="form-label label-alokasi">Berapa persen yang ingin anda alokasikan?</label>
+                  <span id="percentageDisplay">0%</span>
+                  <input type="range" class="form-range" id="customRange1">
+              </div>
+              <div class="d-flex flex-column align-items-center justify-content-center w-100">
+                  <div class="d-flex flex-1  align-items-center justify-content-between w-100">
+                      <button type="submit" class="btn btn-outline-success">Hitung</button>
+                      <button type="button" class="btn btn-outline-primary" id="openCalculator">Buka Kalkulator</button>
+                  </div>
+                  <div id="resultDisplay" class="mt-3"></div> 
+              </div>
+              <div class="modal fade" id="calculatorModal" tabindex="-1" aria-labelledby="calculatorModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="calculatorModalLabel">Kalkulator Sederhana</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="text" class="form-control" id="calculatorInput" placeholder="0">
+                            <div class="d-grid gap-2 mt-2">
+                                <button class="btn btn-primary" id="calculate">Hitung</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+          </div>
+      </form>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
+    <script>
+      const customRange1 = document.getElementById('customRange1');
+      const percentageDisplay = document.getElementById('percentageDisplay');
+      const amountInput = document.querySelector('input[type="text"]');
+      const allocationSelect = document.querySelector('select');
+      const calculateButton = document.querySelector('button[type="submit"]');
+      const openCalculatorButton = document.getElementById('openCalculator');
+      const calculatorModal = new bootstrap.Modal(document.getElementById('calculatorModal'));
+      const calculatorInput = document.getElementById('calculatorInput');
+
+      customRange1.addEventListener('input', function() {
+          const percentage = this.value;
+          percentageDisplay.textContent = `${percentage}%`;
+      });
+
+      calculateButton.addEventListener('click', function(event) {
+          event.preventDefault();
+          const amount = parseFloat(amountInput.value);
+          const allocationValue = parseFloat(allocationSelect.value);
+          const percentage = parseFloat(customRange1.value);
+          const resultWrapper = document.getElementById('resultDisplay');
+          resultWrapper.innerHTML = '';
+          if (isNaN(amount) || isNaN(percentage)) {
+              resultWrapper.innerHTML = '<p class="text-danger">Silakan isi jumlah pendapatan dan pilih persentase alokasi.</p>';
+              return;
+          }
+          let allocationType = '';
+          if (allocationValue === 1) {
+              allocationType = 'Menabung/Investasi';
+          } else if (allocationValue === 2) {
+              allocationType = 'Beramal';
+          }
+          const allocationAmount = (amount * percentage) / 100;
+          const resultDisplay = document.createElement('div');
+          resultDisplay.innerHTML = `<p>Anda akan mengalokasikan Rp. ${formatCurrency(allocationAmount)} untuk ${allocationType}.</p>`;
+          resultWrapper.appendChild(resultDisplay);
+      });
+
+      openCalculatorButton.addEventListener('click', function() {
+          calculatorInput.value = '';
+          calculatorModal.show();
+      });
+
+      document.getElementById('calculate').addEventListener('click', function(event) {
+          event.preventDefault();
+          const expression = calculatorInput.value;
+          try {
+              const result = evaluateExpression(expression);
+              calculatorInput.value = result;
+          } catch (error) {
+              calculatorInput.value = 'Error';
+          }
+      });
+
+      function evaluateExpression(expression) {
+        try {
+            return eval(expression);
+        } catch (error) {
+            return 'Error';
+        }
+      }
+
+      document.getElementById('calculate').addEventListener('click', function() {
+        const expression = calculatorInput.value;
+        const result = evaluateExpression(expression);
+        calculatorInput.value = result;
+      });
+
+      function formatCurrency(amount) {
+          if (amount >= 1000) {
+              return amount.toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,');
+          }
+          return amount.toFixed(2);
+      }
+    </script>
+    </body>
+  </html>
