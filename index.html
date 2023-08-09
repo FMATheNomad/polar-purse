@@ -127,7 +127,8 @@
           calculatorModal.show();
       });
 
-      document.getElementById('calculate').addEventListener('click', function() {
+      document.getElementById('calculate').addEventListener('click', function(event) {
+          event.preventDefault();
           const expression = calculatorInput.value;
           try {
               const result = evaluateExpression(expression);
