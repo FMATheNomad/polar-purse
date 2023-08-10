@@ -1,28 +1,31 @@
 /* Webkit (Chrome, Safari, newer versions of Opera) */
 ::-webkit-scrollbar {
-    width: 12px;
-  }
+  width: 12px;
+}
 
-  ::-webkit-scrollbar-track {
-    background-color: #f1f1f1;
-  }
+::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
 
-  ::-webkit-scrollbar-thumb {
-    background-color: #34d399;
-  }
+::-webkit-scrollbar-thumb {
+  background-color: #34d399;
+}
 
-  /* Firefox
+/* Firefox
   scrollbar-width: thin;
   scrollbar-color: #34d399 #f1f1f1;
    */
-  
-  .nav-links{
-    top:11vh;
-    left: 0;
-  }
 
-  
+.nav-links {
+  top: 11vh;
+  left: -1000%;
+  transition: 1ms all ease-in-out;
+}
 
-  .card{
-    width:350px;
-  }
+.show {
+  left: 0 !important;
+}
+
+.card {
+  width: 350px;
+}

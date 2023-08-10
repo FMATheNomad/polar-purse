@@ -1,131 +1,135 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
-  <title>PolarPurse | Kalkulator Alokasi Pendapatan</title>
-  <link rel="stylesheet" href="./css/ladingpage.css">
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body>
-
-  <header class="bg-slate-100 w-full p-5 text-black fixed top-0">
-    <nav class="p-1 flex justify-between items-center">
-      <h1 class="font-extrabold text-green-500 text-xl">PolarPurse</h1>
-      <div class="text-base">
-        <i class="fa fa-bars text-3xl font-extrabold"></i>
-      </div>
-      <div class="nav-links fixed bg-slate-950 text-slate-300 w-40 p-2">
-        <div class="flex w-full justify-end">
-          <i class="fa fa-close"></i>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"
+    />
+    <title>PolarPurse | Kalkulator Alokasi Pendapatan</title>
+    <link rel="stylesheet" href="./css/ladingpage.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="./js/script.js" defer></script>
+  </head>
+  <body>
+    <header class="bg-slate-100 w-full p-5 text-black fixed top-0">
+      <nav class="p-1 flex justify-between items-center">
+        <h1 class="font-extrabold text-green-500 text-xl">PolarPurse</h1>
+        <div class="text-base" onclick="navbarHandler()">
+          <i class="fa fa-bars text-3xl font-extrabold"></i>
         </div>
-        <div class="flex w-full justify-evenly items-center bg-black">
-          <div class="underline">
-            ID
+        <div class="nav-links fixed bg-slate-950 text-slate-300 w-40 p-2">
+          <div class="flex w-full justify-end">
+            <i class="fa fa-close" onclick="navbarHandler()"></i>
           </div>
-          <div>
-            EN
+          <div class="flex w-full justify-evenly items-center bg-black">
+            <div class="underline">ID</div>
+            <div>EN</div>
+          </div>
+          <div class="flex flex-col">
+            <a href="#home" class="p-2">Beranda</a>
+            <a href="#fitur" class="p-2">Fitur</a>
           </div>
         </div>
-        <div class="flex flex-col ">
-          <a href="#home" class="p-2">Beranda</a>
-          <a href="#fitur" class="p-2">Fitur</a>
-        </div>
-      </div>
-    </nav>
-  </header>
+      </nav>
+    </header>
 
-  <section class="hero-section h-screen bg-slate-200 py-5 my-16" id="home">
-    <div class="flex  items-center justify-center h-full">
+    <section class="hero-section h-screen bg-slate-200 py-5 my-16" id="home">
+      <div class="flex items-center justify-center h-full">
         <div class="p-2 flex-1">
-            <img src="./images/image1.jpg" alt="invts" class="w-full">
+          <img src="./images/image1.jpg" alt="invts" class="w-full" />
         </div>
         <div class="p-3 flex-1">
           <h2 class="font-bold text-3xl text-center p-3">
-            PolarPurse <span class="text-green-500">| Kalkulator Alokasi Pendapatan</span>
+            PolarPurse
+            <span class="text-green-500">| Kalkulator Alokasi Pendapatan</span>
           </h2>
-          <p class="text-slate-400 p-3">
-            Lorem ipsum dolor sit amet.
-          </p>
+          <p class="text-slate-400 p-3">Lorem ipsum dolor sit amet.</p>
           <div class="flex items-center justify-center w-full p-3">
-            <button class="text-white p-3 w-30 rounded-md bg-emerald-400 font-extrabold">
+            <a
+              href="./alloc-income.html"
+              class="text-white p-3 w-30 rounded-md bg-emerald-400 font-extrabold"
+            >
               Coba Sekarang
-            </button>
+            </a>
           </div>
-          
         </div>
-    </div>
-  </section>
-
-  <section class="fitures-section h-screen" id="fitur">
-    <div>
-      <h2 class="p-2 font-extrabold">Semua Fitur</h2>
-
-      <div class="flex-wrap flex  items-center justify-center w-full">
-
-        <div class="flex-1 w-300 p-5 bg-red-500 flex items-center justify-center flex-col bg-slate-200">
-          <img src="./images/image4.jpg" alt="grf" width="250px">
-          <h3 class="p-2 font-extrabold">Kalkulator Alokasi Pendapatan</h3>
-        </div>
-
-
-        <div class="flex-1 w-300 p-5 card flex items-center justify-center flex-col bg-slate-200">
-          <img src="./images/image2.jpg" alt="inv" width="250px">
-          <h3 class="p-2 font-extrabold">Kalkulator Pengeluaran Bulanan</h3>
-        </div>
-
-
-        <div class="flex-1 w-300 p-5 bg-red-500 flex items-center justify-center flex-col bg-slate-200">
-          <img src="./images/image4.jpg" alt="grf" width="250px">
-          <h3 class="p-2 font-extrabold">Kalkulator Alokasi Pendapatan</h3>
-        </div>
-
-        
-        <div class="flex-1 w-300 p-5 card flex items-center justify-center flex-col bg-slate-200">
-          <img src="./images/image2.jpg" alt="inv" width="250px">
-          <h3 class="p-2 font-extrabold">Kalkulator Pengeluaran Bulanan</h3>
-        </div>
-
-
       </div>
-    </div>
-  </section>
+    </section>
 
-  <footer class="p-2 flex flex-col w-full bg-slate-950 p-1 items-center  font-extralight">
-    <div class="flex justify-between items-center w-full text-slate-300">
-      <ul class="p-5 width-50 flex-1">
-        <h3 class="p-2 bg-black">Team</h3>
-        <li class="p-2">
-          <i class="fa fa-github"></i>
-          <span class="p-1 text-sm">fmathenomad</span>
-        </li>
-        <li class="p-2">
-          <i class="fa fa-github"></i>
-          <span class="p-1 text-sm">ryugenxd</span>
-        </li>
-      </ul>
-      <ul class="p-5 width-50 flex-1">
-        <h3 class="p-2 bg-black">Services</h3>
-        <li class="p-2">
-          <i class="fa fa-envelope"></i>
-          <span class="p-1 text-sm">farizmuhammadaditya682@gmail.com</span>
-        </li>
-        <li class="p-2">
-          <i class="fa fa-envelope"></i>
-          <span class="p-1 text-sm">yunanxd1@gmail.com</span>
-        </li>
-      </ul>
-    </div>
-    <div class="flex w-full bg-slate-950 justify-between p-1 items-center">
-      <span class="font-thin text-slate-300 text-sm">&copy; 2023  All rights reserved</span>
-      <div class="flex w-10 justify-between items-center">
-        <i class="fa fa-github text-slate-300"></i>
-        <i class="fa fa-envelope text-slate-300"></i>
+    <section class="fitures-section h-screen" id="fitur">
+      <div>
+        <h2 class="p-2 font-extrabold">Semua Fitur</h2>
+
+        <div class="flex-wrap flex items-center justify-center w-full">
+          <div
+            class="flex-1 w-300 p-5 bg-red-500 flex items-center justify-center flex-col bg-slate-200"
+          >
+            <img src="./images/image4.jpg" alt="grf" width="250px" />
+            <h3 class="p-2 font-extrabold">Kalkulator Alokasi Pendapatan</h3>
+          </div>
+
+          <div
+            class="flex-1 w-300 p-5 card flex items-center justify-center flex-col bg-slate-200"
+          >
+            <img src="./images/image2.jpg" alt="inv" width="250px" />
+            <h3 class="p-2 font-extrabold">Kalkulator Pengeluaran Bulanan</h3>
+          </div>
+
+          <div
+            class="flex-1 w-300 p-5 bg-red-500 flex items-center justify-center flex-col bg-slate-200"
+          >
+            <img src="./images/image4.jpg" alt="grf" width="250px" />
+            <h3 class="p-2 font-extrabold">Kalkulator Alokasi Pendapatan</h3>
+          </div>
+
+          <div
+            class="flex-1 w-300 p-5 card flex items-center justify-center flex-col bg-slate-200"
+          >
+            <img src="./images/image2.jpg" alt="inv" width="250px" />
+            <h3 class="p-2 font-extrabold">Kalkulator Pengeluaran Bulanan</h3>
+          </div>
+        </div>
       </div>
-    </div>
-  </footer>
+    </section>
 
-
-</body>
+    <footer
+      class="p-2 flex flex-col w-full bg-slate-950 p-1 items-center font-extralight"
+    >
+      <div class="flex justify-between items-center w-full text-slate-300">
+        <ul class="p-5 width-50 flex-1">
+          <h3 class="p-2 bg-black">Team</h3>
+          <li class="p-2">
+            <i class="fa fa-github"></i>
+            <span class="p-1 text-sm">fmathenomad</span>
+          </li>
+          <li class="p-2">
+            <i class="fa fa-github"></i>
+            <span class="p-1 text-sm">ryugenxd</span>
+          </li>
+        </ul>
+        <ul class="p-5 width-50 flex-1">
+          <h3 class="p-2 bg-black">Services</h3>
+          <li class="p-2">
+            <i class="fa fa-envelope"></i>
+            <span class="p-1 text-sm">farizmuhammadaditya682@gmail.com</span>
+          </li>
+          <li class="p-2">
+            <i class="fa fa-envelope"></i>
+            <span class="p-1 text-sm">yunanxd1@gmail.com</span>
+          </li>
+        </ul>
+      </div>
+      <div class="flex w-full bg-slate-950 justify-between p-1 items-center">
+        <span class="font-thin text-slate-300 text-sm"
+          >&copy; 2023 All rights reserved</span
+        >
+        <div class="flex w-10 justify-between items-center">
+          <i class="fa fa-github text-slate-300"></i>
+          <i class="fa fa-envelope text-slate-300"></i>
+        </div>
+      </div>
+    </footer>
+  </body>
 </html>
