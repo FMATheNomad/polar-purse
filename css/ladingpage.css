@@ -8,9 +8,21 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background-color: #00ff88;
+    background-color: #34d399;
   }
 
-  /* Firefox */
+  /* Firefox
   scrollbar-width: thin;
-  scrollbar-color: #00ff88 #f1f1f1; 
+  scrollbar-color: #34d399 #f1f1f1;
+   */
+  
+  .nav-links{
+    top:11vh;
+    left: 0;
+  }
+
+  
+
+  .card{
+    width:350px;
+  }
