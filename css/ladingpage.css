@@ -19,7 +19,7 @@
 .nav-links {
   top: 11vh;
   left: -1000%;
-  transition: 1ms all ease-in-out;
+  transition: left 0.5s;
 }
 
 .show {
