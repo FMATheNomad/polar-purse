@@ -16,20 +16,20 @@
     <header class="bg-slate-100 w-full p-5 text-black fixed top-0">
       <nav class="p-1 flex justify-between items-center">
         <h1 class="font-extrabold text-green-500 text-xl">PolarPurse</h1>
-        <div class="text-base" onclick="navbarHandler()">
+        <div class="nav-btn text-base" onclick="navbarHandler()">
           <i class="fa fa-bars text-3xl font-extrabold"></i>
         </div>
         <div class="nav-links fixed bg-slate-950 text-slate-300 w-40 p-2">
-          <div class="flex w-full justify-end">
+          <div class="close-btn flex w-full justify-end">
             <i class="fa fa-close" onclick="navbarHandler()"></i>
           </div>
           <div class="flex w-full justify-evenly items-center bg-black">
             <div class="underline">ID</div>
             <div>EN</div>
           </div>
-          <div class="flex flex-col">
-            <a href="#home" class="p-2">Beranda</a>
-            <a href="#fitur" class="p-2">Fitur</a>
+          <div class="link-container flex flex-col">
+            <a href="#home" class="link p-2">Beranda</a>
+            <a href="#fitur" class="link p-2">Fitur</a>
           </div>
         </div>
       </nav>
@@ -45,7 +45,10 @@
             PolarPurse
             <span class="text-green-500">| Kalkulator Alokasi Pendapatan</span>
           </h2>
-          <p class="text-slate-400 p-3">Lorem ipsum dolor sit amet.</p>
+          <p class="text-slate-400 p-3 text-center">
+            Ayo mulai menghitung alokasi pendapatan mengunakan aplikasi
+            PolarPurse.
+          </p>
           <div class="flex items-center justify-center w-full p-3">
             <a
               href="./alloc-income.html"
@@ -100,22 +103,22 @@
       <div class="flex justify-between items-center w-full text-slate-300">
         <ul class="p-5 width-50 flex-1">
           <h3 class="p-2 bg-black">Team</h3>
-          <li class="p-2">
+          <li class="p-2 flex-1">
             <i class="fa fa-github"></i>
             <span class="p-1 text-sm">fmathenomad</span>
           </li>
-          <li class="p-2">
+          <li class="p-2 flex-1">
             <i class="fa fa-github"></i>
             <span class="p-1 text-sm">ryugenxd</span>
           </li>
         </ul>
         <ul class="p-5 width-50 flex-1">
           <h3 class="p-2 bg-black">Services</h3>
-          <li class="p-2">
+          <li class="p-2 flex-1">
             <i class="fa fa-envelope"></i>
             <span class="p-1 text-sm">farizmuhammadaditya682@gmail.com</span>
           </li>
-          <li class="p-2">
+          <li class="p-2 flex-1">
             <i class="fa fa-envelope"></i>
             <span class="p-1 text-sm">yunanxd1@gmail.com</span>
           </li>
@@ -125,7 +128,7 @@
         <span class="font-thin text-slate-300 text-sm"
           >&copy; 2023 All rights reserved</span
         >
-        <div class="flex w-10 justify-between items-center">
+        <div class="flex w-10 justify-between items-center flex-1">
           <i class="fa fa-github text-slate-300"></i>
           <i class="fa fa-envelope text-slate-300"></i>
         </div>

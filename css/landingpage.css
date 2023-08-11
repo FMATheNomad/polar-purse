@@ -29,3 +29,27 @@
 .card {
   width: 350px;
 }
+
+@media only screen and (min-width: 870px) {
+  .nav-btn {
+    display: none;
+  }
+  .nav-links {
+    display: flex;
+    flex-direction: row-reverse;
+    width: 25% !important;
+    position: inherit !important;
+    background: inherit !important;
+  }
+  .close-btn {
+    display: none !important;
+  }
+  .link-container {
+    flex-direction: row !important;
+  }
+  .link {
+    background-color: #34d399 !important;
+    color: #ffff !important;
+    padding: 0.5rem !important;
+  }
+}
