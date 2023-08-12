@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalkulator Laba Rugi Bisnis</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f5f5f5;
+  }
+
+  .calculator {
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    padding: 20px;
+    width: 300px;
+    text-align: center;
+  }
+
+  .calculator h2 {
+    margin-top: 0;
+  }
+
+  .input-group {
+    margin-bottom: 15px;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+
+  button {
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  button:hover {
+    background-color: #0056b3;
+  }
+
+  .result {
+    font-size: 18px;
+    margin-top: 15px;
+  }
+
+  .profit {
+    color: #4caf50;
+  }
+
+  .loss {
+    color: #f44336;
+  }
+</style>
+</head>
+<body>
+<div class="calculator">
+  <h2>Kalkulator Laba Rugi Bisnis</h2>
+  <div class="input-group">
+    <label for="revenue">Pendapatan</label>
+    <input type="number" id="revenue" placeholder="Masukkan pendapatan">
+  </div>
+  <div class="input-group">
+    <label for="expenses">Beban</label>
+    <input type="number" id="expenses" placeholder="Masukkan beban">
+  </div>
+  <button onclick="calculate()">Hitung</button>
+  <div class="result" id="result"></div>
+</div>
+
+<script>
+  function calculate() {
+    const revenue = parseFloat(document.getElementById("revenue").value);
+    const expenses = parseFloat(document.getElementById("expenses").value);
+
+    if (isNaN(revenue) || isNaN(expenses)) {
+      document.getElementById("result").textContent = "Masukkan angka yang valid.";
+    } else {
+      const profitLoss = revenue - expenses;
+      const resultElement = document.getElementById("result");
+
+      if (profitLoss > 0) {
+        resultElement.textContent = `Laba: Rp. ${profitLoss.toFixed(2)}`;
+        resultElement.classList.remove("loss");
+        resultElement.classList.add("profit");
+      } else if (profitLoss < 0) {
+        resultElement.textContent = `Rugi: Rp. ${Math.abs(profitLoss).toFixed(2)}`;
+        resultElement.classList.remove("profit");
+        resultElement.classList.add("loss");
+      } else {
+        resultElement.textContent = "Tidak Ada Laba/Rugi.";
+        resultElement.classList.remove("profit");
+        resultElement.classList.remove("loss");
+      }
+    }
+  }
+</script>
+</body>
+</html>
