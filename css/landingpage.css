@@ -16,6 +16,11 @@
   scrollbar-color: #34d399 #f1f1f1;
    */
 
+.header {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(0.5rem);
+}
+
 .nav-links {
   top: 11vh;
   left: -1000%;

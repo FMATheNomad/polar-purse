@@ -12,10 +12,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="./js/script.js" defer></script>
   </head>
-  <body>
-    <header class="bg-slate-100 w-full p-5 text-black fixed top-0">
+  <body class="bg-slate-200">
+    <header class="header shadow-lg w-full p-5 text-black fixed top-0">
       <nav class="p-1 flex justify-between items-center">
-        <h1 class="font-extrabold text-green-500 text-xl">PolarPurse</h1>
+        <h1 class="font-extrabold text-green-500 text-2xl">PolarPurse</h1>
         <div class="nav-btn text-base" onclick="navbarHandler()">
           <i class="fa fa-bars text-3xl font-extrabold"></i>
         </div>
@@ -23,7 +23,9 @@
           <div class="close-btn flex w-full justify-end">
             <i class="fa fa-close" onclick="navbarHandler()"></i>
           </div>
-          <div class="flex w-full justify-evenly items-center bg-black">
+          <div
+            class="flex shadow-lg w-full justify-evenly items-center bg-black"
+          >
             <div class="underline">ID</div>
             <div>EN</div>
           </div>
@@ -52,7 +54,7 @@
           <div class="flex items-center justify-center w-full p-3">
             <a
               href="./alloc-income.html"
-              class="text-white p-3 w-30 rounded-md bg-emerald-400 font-extrabold"
+              class="shadow-lg text-white p-3 w-30 rounded-md bg-emerald-400 font-extrabold"
             >
               Coba Sekarang
             </a>
@@ -63,32 +65,32 @@
 
     <section class="fitures-section h-screen" id="fitur">
       <div>
-        <h2 class="p-2 font-extrabold">Semua Fitur</h2>
+        <h2 class="p-2 font-extrabold shadow-lg">Semua Fitur</h2>
 
         <div class="flex-wrap flex items-center justify-center w-full">
           <div
-            class="flex-1 w-300 p-5 bg-red-500 flex items-center justify-center flex-col bg-slate-200"
+            class="shadow-lg flex-1 w-300 p-5 flex items-center justify-center flex-col bg-slate-200"
           >
             <img src="./images/image4.jpg" alt="grf" width="250px" />
             <h3 class="p-2 font-extrabold">Kalkulator Alokasi Pendapatan</h3>
           </div>
 
           <div
-            class="flex-1 w-300 p-5 card flex items-center justify-center flex-col bg-slate-200"
+            class="shadow-lg flex-1 w-300 p-5 card flex items-center justify-center flex-col bg-slate-200"
           >
             <img src="./images/image2.jpg" alt="inv" width="250px" />
             <h3 class="p-2 font-extrabold">Kalkulator Pengeluaran Bulanan</h3>
           </div>
 
           <div
-            class="flex-1 w-300 p-5 bg-red-500 flex items-center justify-center flex-col bg-slate-200"
+            class="shadow-lg flex-1 w-300 p-5 flex items-center justify-center flex-col bg-slate-200"
           >
             <img src="./images/image4.jpg" alt="grf" width="250px" />
             <h3 class="p-2 font-extrabold">Kalkulator Alokasi Pendapatan</h3>
           </div>
 
           <div
-            class="flex-1 w-300 p-5 card flex items-center justify-center flex-col bg-slate-200"
+            class="shadow-lg flex-1 w-300 p-5 card flex items-center justify-center flex-col bg-slate-200"
           >
             <img src="./images/image2.jpg" alt="inv" width="250px" />
             <h3 class="p-2 font-extrabold">Kalkulator Pengeluaran Bulanan</h3>
