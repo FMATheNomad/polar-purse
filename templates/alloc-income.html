@@ -1,30 +1,30 @@
 {% extends "base.html" %}
-{% block title %}PolarPurse | Alokasi Pendapatan{% endblock %}
+{% block title %}{{ app_name }} | Alokasi Pendapatan{% endblock %}
 {% block content %}
 <div class="min-h-screen flex items-center justify-center p-4">
-  <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-lg">
-    <h1 class="text-2xl font-bold text-emerald-600 mb-2">PolarPurse — Kalkulator Alokasi Pendapatan</h1>
-    <p class="text-sm text-slate-500 mb-4">
+  <div class="calculator-card bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6 w-full max-w-lg">
+    <h1 class="text-2xl font-bold text-emerald-600 dark:text-emerald-400 mb-2">{{ app_name }} — Kalkulator Alokasi Pendapatan</h1>
+    <p class="text-sm text-slate-500 dark:text-slate-300 mb-4">
       Masukkan pendapatan, pilih alokasi, dan atur persentasenya.
     </p>
 
     <div class="space-y-4">
       <div>
-        <label class="block text-sm font-semibold mb-1">Jumlah Pendapatan (Rp)</label>
-        <input type="number" id="income" class="w-full border rounded px-3 py-2" placeholder="Contoh: 5000000" min="0" />
+        <label class="block text-sm font-semibold mb-1 text-slate-700 dark:text-slate-200">Jumlah Pendapatan (Rp)</label>
+        <input type="number" id="income" class="w-full border dark:border-slate-600 dark:bg-slate-700 dark:text-white rounded px-3 py-2" placeholder="Contoh: 5000000" min="0" inputmode="numeric" />
       </div>
 
       <div>
-        <label class="block text-sm font-semibold mb-1">Alokasi</label>
-        <select id="allocType" class="w-full border rounded px-3 py-2">
+        <label class="block text-sm font-semibold mb-1 text-slate-700 dark:text-slate-200">Alokasi</label>
+        <select id="allocType" class="w-full border dark:border-slate-600 dark:bg-slate-700 dark:text-white rounded px-3 py-2">
           <option value="saving">Menabung/Investasi</option>
           <option value="charity">Beramal</option>
         </select>
       </div>
 
       <div>
-        <label class="block text-sm font-semibold mb-1">
-          Persentase: <span id="percentDisplay" class="text-emerald-600 font-bold">50%</span>
+        <label class="block text-sm font-semibold mb-1 text-slate-700 dark:text-slate-200">
+          Persentase: <span id="percentDisplay" class="text-emerald-600 dark:text-emerald-400 font-bold">50%</span>
         </label>
         <input type="range" id="percentSlider" class="w-full" min="0" max="100" value="50" />
         <div class="flex justify-between text-xs text-slate-400">
@@ -32,14 +32,11 @@
         </div>
       </div>
 
-      <button id="calcBtn" class="w-full bg-emerald-500 text-white font-bold py-2 rounded hover:bg-emerald-600 transition">
+      <button id="calcBtn" class="calc-btn w-full bg-emerald-500 text-white font-bold py-2 rounded hover:bg-emerald-600 transition">
         Hitung
       </button>
 
-      <div id="result" class="hidden bg-emerald-50 border border-emerald-300 rounded p-4 text-center">
-        <p class="text-lg font-bold text-emerald-700" id="resultText"></p>
-        <p class="text-sm text-slate-500 mt-1" id="resultDetail"></p>
-      </div>
+      <div id="result" class="hidden rounded p-4 text-center"></div>
     </div>
   </div>
 </div>
@@ -47,39 +44,39 @@
 {% block scripts %}
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-  const income = document.getElementById("income");
-  const allocType = document.getElementById("allocType");
-  const slider = document.getElementById("percentSlider");
-  const display = document.getElementById("percentDisplay");
-  const btn = document.getElementById("calcBtn");
-  const result = document.getElementById("result");
-  const resultText = document.getElementById("resultText");
-  const resultDetail = document.getElementById("resultDetail");
+  var income = document.getElementById("income");
+  var allocType = document.getElementById("allocType");
+  var slider = document.getElementById("percentSlider");
+  var display = document.getElementById("percentDisplay");
+  var btn = document.getElementById("calcBtn");
+  var result = document.getElementById("result");
 
   slider.addEventListener("input", function () {
     display.textContent = this.value + "%";
   });
 
   btn.addEventListener("click", async function () {
-    const incomeVal = parseFloat(income.value);
+    var incomeVal = parseFloat(income.value);
     if (!incomeVal || incomeVal <= 0) {
-      result.classList.remove("hidden");
-      resultText.textContent = "Masukkan jumlah pendapatan yang valid.";
-      resultText.className = "text-lg font-bold text-red-600";
-      resultDetail.textContent = "";
+      showResult(result, '<p class="text-red-600 font-bold">Masukkan jumlah pendapatan yang valid.</p>', true);
       return;
     }
-    const data = await apiPost("/api/calculate/alloc-income", {
-      income: incomeVal,
-      allocation_type: allocType.value,
-      percentage: parseFloat(slider.value),
-    });
-    result.classList.remove("hidden");
-    resultText.textContent = "Rp " + data.amount.toLocaleString("id-ID");
-    resultText.className = "text-lg font-bold text-emerald-700";
-    resultDetail.textContent = data.percentage + "% untuk " + data.allocation_label;
+    setLoading(btn, true);
+    try {
+      var data = await apiPost("/api/v1/calculate/alloc-income", {
+        income: incomeVal,
+        allocation_type: allocType.value,
+        percentage: parseFloat(slider.value),
+      });
+      showResult(result, '<p class="text-lg font-bold text-emerald-700 dark:text-emerald-300">' +
+        data.formatted + '</p><p class="text-sm text-slate-500 dark:text-slate-300 mt-1">' +
+        data.percentage + '% untuk ' + data.allocation_label + "</p>");
+    } catch (err) {
+      showResult(result, '<p class="text-red-600 font-bold">' + err.message + "</p>", true);
+    } finally {
+      setLoading(btn, false);
+    }
   });
 });
 </script>
-<script src="{{ url_for('static', filename='js/calculators.js') }}"></script>
 {% endblock %}

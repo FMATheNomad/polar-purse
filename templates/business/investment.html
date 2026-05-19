@@ -1,31 +1,35 @@
 {% extends "base.html" %}
-{% block title %}PolarPurse | Kalkulator Investasi{% endblock %}
+{% block title %}{{ app_name }} | Kalkulator Investasi{% endblock %}
+{% block head_extra %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+{% endblock %}
 {% block content %}
 <div class="min-h-screen flex items-center justify-center p-4">
-  <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
-    <h1 class="text-2xl font-bold text-emerald-600 mb-4">Kalkulator Penghitung Investasi</h1>
+  <div class="calculator-card bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6 w-full max-w-lg">
+    <h1 class="text-2xl font-bold text-emerald-600 dark:text-emerald-400 mb-4">Kalkulator Penghitung Investasi</h1>
 
     <div class="space-y-4">
       <div>
-        <label class="block text-sm font-semibold mb-1">Investasi Awal (Rp)</label>
-        <input type="number" id="initial" class="w-full border rounded px-3 py-2" placeholder="Masukkan jumlah investasi awal" min="0" />
+        <label class="block text-sm font-semibold mb-1 text-slate-700 dark:text-slate-200">Investasi Awal (Rp)</label>
+        <input type="number" id="initial" class="w-full border dark:border-slate-600 dark:bg-slate-700 dark:text-white rounded px-3 py-2" placeholder="Masukkan jumlah investasi awal" min="0" inputmode="numeric" />
       </div>
       <div>
-        <label class="block text-sm font-semibold mb-1">Tingkat Pengembalian Tahunan (%)</label>
-        <input type="number" id="rate" class="w-full border rounded px-3 py-2" placeholder="Contoh: 10" min="0" step="0.1" />
+        <label class="block text-sm font-semibold mb-1 text-slate-700 dark:text-slate-200">Tingkat Pengembalian Tahunan (%)</label>
+        <input type="number" id="rate" class="w-full border dark:border-slate-600 dark:bg-slate-700 dark:text-white rounded px-3 py-2" placeholder="Contoh: 10" min="0" step="0.1" inputmode="decimal" />
       </div>
       <div>
-        <label class="block text-sm font-semibold mb-1">Jangka Waktu (Tahun)</label>
-        <input type="number" id="years" class="w-full border rounded px-3 py-2" placeholder="Contoh: 5" min="1" />
+        <label class="block text-sm font-semibold mb-1 text-slate-700 dark:text-slate-200">Jangka Waktu (Tahun)</label>
+        <input type="number" id="years" class="w-full border dark:border-slate-600 dark:bg-slate-700 dark:text-white rounded px-3 py-2" placeholder="Contoh: 5" min="1" step="1" inputmode="numeric" />
       </div>
 
-      <button id="calcBtn" class="w-full bg-emerald-500 text-white font-bold py-2 rounded hover:bg-emerald-600 transition">
+      <button id="calcBtn" class="calc-btn w-full bg-emerald-500 text-white font-bold py-2 rounded hover:bg-emerald-600 transition">
         Hitung
       </button>
 
-      <div id="result" class="hidden bg-emerald-50 border border-emerald-300 rounded p-4 text-center">
-        <p class="text-lg font-bold text-emerald-700" id="resultText"></p>
-        <p class="text-sm text-slate-500 mt-1" id="resultDetail"></p>
+      <div id="result" class="hidden rounded p-4 text-center"></div>
+
+      <div class="relative" style="height:250px">
+        <canvas id="chart"></canvas>
       </div>
     </div>
   </div>
@@ -34,27 +38,67 @@
 {% block scripts %}
 <script>
 document.addEventListener("DOMContentLoaded", function () {
+  var chart = null;
+
   document.getElementById("calcBtn").addEventListener("click", async function () {
-    const initial = parseFloat(document.getElementById("initial").value);
-    const rate = parseFloat(document.getElementById("rate").value);
-    const years = parseFloat(document.getElementById("years").value);
-    const result = document.getElementById("result");
-    const resultText = document.getElementById("resultText");
-    const resultDetail = document.getElementById("resultDetail");
-    if (isNaN(initial) || isNaN(rate) || isNaN(years) || initial <= 0) {
-      result.classList.remove("hidden");
-      resultText.textContent = "Masukkan angka yang valid.";
-      resultText.className = "text-lg font-bold text-red-600";
-      resultDetail.textContent = "";
+    var initial = parseInt(document.getElementById("initial").value);
+    var rate = parseFloat(document.getElementById("rate").value);
+    var years = parseInt(document.getElementById("years").value);
+    var result = document.getElementById("result");
+
+    if (isNaN(initial) || initial <= 0 || isNaN(rate) || isNaN(years) || years <= 0) {
+      showResult(result, '<p class="text-red-600 font-bold">Masukkan angka yang valid.</p>', true);
       return;
     }
-    const data = await apiPost("/api/calculate/investment", { initial, rate, years });
-    result.classList.remove("hidden");
-    resultText.textContent = "Nilai Investasi: " + data.formatted;
-    resultText.className = "text-lg font-bold text-emerald-700";
-    resultDetail.textContent = "Setelah " + data.years + " tahun dengan bunga " + rate + "% per tahun";
+    setLoading(this, true);
+    try {
+      var data = await apiPost("/api/v1/calculate/investment", { initial: initial, rate: rate, years: years });
+      showResult(result,
+        '<p class="text-lg font-bold text-emerald-700 dark:text-emerald-300">Nilai Investasi: ' + data.formatted + "</p>" +
+        '<p class="text-sm text-slate-500 dark:text-slate-300 mt-1">Setelah ' + data.years + ' tahun dengan bunga ' + rate + '% per tahun</p>'
+      );
+
+      if (chart) chart.destroy();
+      var ctx = document.getElementById("chart").getContext("2d");
+      var labels = data.growth_series.map(function (_, i) { return "Tahun " + i; });
+      chart = new Chart(ctx, {
+        type: "line",
+        data: {
+          labels: labels,
+          datasets: [{
+            label: "Nilai Investasi (Rp)",
+            data: data.growth_series,
+            borderColor: "#34d399",
+            backgroundColor: "rgba(52, 211, 153, 0.1)",
+            fill: true,
+            tension: 0.3,
+          }],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+          },
+          scales: {
+            y: {
+              ticks: {
+                callback: function (v) {
+                  if (v >= 1000000) return (v / 1000000).toFixed(1) + "jt";
+                  if (v >= 1000) return (v / 1000).toFixed(0) + "rb";
+                  return v;
+                },
+              },
+            },
+          },
+        },
+      });
+    } catch (err) {
+      showResult(result, '<p class="text-red-600 font-bold">' + err.message + "</p>", true);
+    } finally {
+      setLoading(this, false);
+    }
   });
 });
 </script>
-<script src="{{ url_for('static', filename='js/calculators.js') }}"></script>
 {% endblock %}

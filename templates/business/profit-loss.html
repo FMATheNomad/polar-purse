@@ -1,27 +1,25 @@
 {% extends "base.html" %}
-{% block title %}PolarPurse | Kalkulator Laba Rugi{% endblock %}
+{% block title %}{{ app_name }} | Kalkulator Laba Rugi{% endblock %}
 {% block content %}
 <div class="min-h-screen flex items-center justify-center p-4">
-  <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
-    <h1 class="text-2xl font-bold text-emerald-600 mb-4">Kalkulator Laba Rugi Bisnis</h1>
+  <div class="calculator-card bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6 w-full max-w-md">
+    <h1 class="text-2xl font-bold text-emerald-600 dark:text-emerald-400 mb-4">Kalkulator Laba Rugi Bisnis</h1>
 
     <div class="space-y-4">
       <div>
-        <label class="block text-sm font-semibold mb-1">Pendapatan (Rp)</label>
-        <input type="number" id="revenue" class="w-full border rounded px-3 py-2" placeholder="Masukkan pendapatan" min="0" />
+        <label class="block text-sm font-semibold mb-1 text-slate-700 dark:text-slate-200">Pendapatan (Rp)</label>
+        <input type="number" id="revenue" class="w-full border dark:border-slate-600 dark:bg-slate-700 dark:text-white rounded px-3 py-2" placeholder="Masukkan pendapatan" min="0" inputmode="numeric" />
       </div>
       <div>
-        <label class="block text-sm font-semibold mb-1">Beban (Rp)</label>
-        <input type="number" id="expenses" class="w-full border rounded px-3 py-2" placeholder="Masukkan beban" min="0" />
+        <label class="block text-sm font-semibold mb-1 text-slate-700 dark:text-slate-200">Beban (Rp)</label>
+        <input type="number" id="expenses" class="w-full border dark:border-slate-600 dark:bg-slate-700 dark:text-white rounded px-3 py-2" placeholder="Masukkan beban" min="0" inputmode="numeric" />
       </div>
 
-      <button id="calcBtn" class="w-full bg-emerald-500 text-white font-bold py-2 rounded hover:bg-emerald-600 transition">
+      <button id="calcBtn" class="calc-btn w-full bg-emerald-500 text-white font-bold py-2 rounded hover:bg-emerald-600 transition">
         Hitung
       </button>
 
-      <div id="result" class="hidden border rounded p-4 text-center">
-        <p class="text-lg font-bold" id="resultText"></p>
-      </div>
+      <div id="result" class="hidden rounded p-4 text-center"></div>
     </div>
   </div>
 </div>
@@ -30,24 +28,27 @@
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("calcBtn").addEventListener("click", async function () {
-    const revenue = parseFloat(document.getElementById("revenue").value);
-    const expenses = parseFloat(document.getElementById("expenses").value);
-    const result = document.getElementById("result");
-    const resultText = document.getElementById("resultText");
+    var revenue = parseFloat(document.getElementById("revenue").value);
+    var expenses = parseFloat(document.getElementById("expenses").value);
+    var result = document.getElementById("result");
     if (isNaN(revenue) || isNaN(expenses)) {
-      result.classList.remove("hidden");
-      resultText.textContent = "Masukkan angka yang valid.";
-      resultText.className = "text-lg font-bold text-red-600";
-      result.className = "hidden border rounded p-4 text-center";
+      showResult(result, '<p class="text-red-600 font-bold">Masukkan angka yang valid.</p>', true);
       return;
     }
-    const data = await apiPost("/api/calculate/profit-loss", { revenue, expenses });
-    result.className = (data.is_profit ? "bg-emerald-50 border-emerald-300" : "bg-red-50 border-red-300") + " rounded p-4 text-center";
-    result.classList.remove("hidden");
-    resultText.textContent = data.status + ": " + data.formatted;
-    resultText.className = "text-lg font-bold " + (data.is_profit ? "text-emerald-700" : "text-red-600");
+    setLoading(this, true);
+    try {
+      var data = await apiPost("/api/v1/calculate/profit-loss", { revenue: revenue, expenses: expenses });
+      var color = data.is_profit ? "text-emerald-700 dark:text-emerald-300" : "text-red-600";
+      showResult(result, '<p class="text-lg font-bold ' + color + '">' + data.status_label + ": " + data.formatted + "</p>");
+      result.className = (data.is_profit
+        ? "bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-300"
+        : "bg-red-50 dark:bg-red-900/30 border border-red-300") + " rounded p-4 text-center";
+    } catch (err) {
+      showResult(result, '<p class="text-red-600 font-bold">' + err.message + "</p>", true);
+    } finally {
+      setLoading(this, false);
+    }
   });
 });
 </script>
-<script src="{{ url_for('static', filename='js/calculators.js') }}"></script>
 {% endblock %}

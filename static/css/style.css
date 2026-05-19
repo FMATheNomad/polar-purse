@@ -9,14 +9,19 @@
 }
 
 .header {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(0.5rem);
+}
+
+.dark .header {
+  background: rgba(15, 23, 42, 0.85);
 }
 
 .nav-links {
   top: 11vh;
   left: -1000%;
   transition: left 0.5s;
+  z-index: 100;
 }
 
 .nav-links.show {
@@ -33,7 +38,7 @@
     width: auto !important;
     position: static !important;
     background: transparent !important;
-    border-radius: 0 !important;
+    border: none !important;
   }
   .close-btn {
     display: none !important;
@@ -47,6 +52,9 @@
     padding: 0.5rem 1rem !important;
     margin-left: 0.5rem;
   }
+  .dark .link {
+    background-color: #059669 !important;
+  }
 }
 
 .card-hover {
@@ -55,4 +63,9 @@
 .card-hover:hover {
   transform: translateY(-4px);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
 }

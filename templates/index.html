@@ -1,18 +1,20 @@
 {% extends "base.html" %}
-{% block title %}PolarPurse | Kalkulator Alokasi Pendapatan{% endblock %}
+{% block title %}{{ app_name }} | Kalkulator Alokasi Pendapatan{% endblock %}
 {% block content %}
-<section class="hero-section min-h-screen flex items-center py-10" id="home">
+<section class="hero-section min-h-screen flex items-center py-10 dark:bg-slate-900 transition-colors" id="home">
   <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-8 px-4">
     <div class="flex-1">
-      <img src="{{ url_for('static', filename='images/image1.jpg') }}" alt="Hero" class="w-full rounded-lg shadow-lg" onerror="this.src='https://placehold.co/600x400?text=PolarPurse'" />
+      <img src="{{ url_for('static', filename='images/image1.jpg') }}" alt="Hero"
+           class="w-full rounded-lg shadow-lg"
+           onerror="this.src='https://placehold.co/600x400/34d399/ffffff?text=PolarPurse'" />
     </div>
     <div class="flex-1 text-center md:text-left">
-      <h2 class="font-bold text-3xl md:text-4xl mb-4">
-        PolarPurse
+      <h2 class="font-bold text-3xl md:text-4xl mb-4 text-slate-800 dark:text-white">
+        {{ app_name }}
         <span class="text-emerald-500">| Kalkulator Alokasi Pendapatan</span>
       </h2>
-      <p class="text-slate-500 mb-6 text-lg">
-        Ayo mulai menghitung alokasi pendapatan menggunakan aplikasi PolarPurse.
+      <p class="text-slate-500 dark:text-slate-300 mb-6 text-lg">
+        Ayo mulai menghitung alokasi pendapatan menggunakan aplikasi {{ app_name }}.
       </p>
       <a href="/alloc-income"
          class="inline-block bg-emerald-500 text-white px-8 py-3 rounded-lg font-bold shadow-lg hover:bg-emerald-600 transition">
@@ -22,39 +24,51 @@
   </div>
 </section>
 
-<section class="py-10 bg-white" id="fitur">
+<section class="py-10 bg-white dark:bg-slate-800 transition-colors" id="fitur">
   <div class="max-w-6xl mx-auto px-4">
-    <h2 class="text-2xl font-bold mb-8 text-center">Semua Fitur</h2>
+    <h2 class="text-2xl font-bold mb-8 text-center text-slate-800 dark:text-white">Semua Fitur</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      <a href="/alloc-income" class="card-hover bg-slate-100 rounded-lg shadow p-5 flex flex-col items-center text-center">
-        <img src="{{ url_for('static', filename='images/image4.jpg') }}" alt="Income Allocation" class="w-32 h-32 object-cover rounded mb-3" onerror="this.src='https://placehold.co/128?text=Allokasi'" />
-        <h3 class="font-bold text-emerald-600">Kalkulator Alokasi Pendapatan</h3>
-        <p class="text-sm text-slate-500 mt-1">Hitung persentase alokasi pendapatan untuk tabungan, investasi, atau amal.</p>
+      <a href="/alloc-income" class="card-hover bg-slate-100 dark:bg-slate-700 rounded-lg shadow p-5 flex flex-col items-center text-center">
+        <div class="w-16 h-16 bg-emerald-100 dark:bg-emerald-900 rounded-full flex items-center justify-center mb-3">
+          <i class="fa fa-piggy-bank text-3xl text-emerald-500"></i>
+        </div>
+        <h3 class="font-bold text-emerald-600 dark:text-emerald-400">Kalkulator Alokasi Pendapatan</h3>
+        <p class="text-sm text-slate-500 dark:text-slate-300 mt-1">Hitung persentase alokasi pendapatan untuk tabungan, investasi, atau amal.</p>
       </a>
-      <a href="/business/financial" class="card-hover bg-slate-100 rounded-lg shadow p-5 flex flex-col items-center text-center">
-        <img src="{{ url_for('static', filename='images/image2.jpg') }}" alt="Financial" class="w-32 h-32 object-cover rounded mb-3" onerror="this.src='https://placehold.co/128?text=Keuangan'" />
-        <h3 class="font-bold text-emerald-600">Kalkulator Keuangan Bisnis</h3>
-        <p class="text-sm text-slate-500 mt-1">Hitung keuntungan bulanan usaha Anda.</p>
+      <a href="/business/financial" class="card-hover bg-slate-100 dark:bg-slate-700 rounded-lg shadow p-5 flex flex-col items-center text-center">
+        <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mb-3">
+          <i class="fa fa-chart-line text-3xl text-blue-500"></i>
+        </div>
+        <h3 class="font-bold text-emerald-600 dark:text-emerald-400">Kalkulator Keuangan Bisnis</h3>
+        <p class="text-sm text-slate-500 dark:text-slate-300 mt-1">Hitung keuntungan bulanan usaha Anda.</p>
       </a>
-      <a href="/business/bep" class="card-hover bg-slate-100 rounded-lg shadow p-5 flex flex-col items-center text-center">
-        <img src="{{ url_for('static', filename='images/image4.jpg') }}" alt="BEP" class="w-32 h-32 object-cover rounded mb-3" onerror="this.src='https://placehold.co/128?text=BEP'" />
-        <h3 class="font-bold text-emerald-600">Kalkulator Break Even Point</h3>
-        <p class="text-sm text-slate-500 mt-1">Hitung titik impas bisnis Anda.</p>
+      <a href="/business/bep" class="card-hover bg-slate-100 dark:bg-slate-700 rounded-lg shadow p-5 flex flex-col items-center text-center">
+        <div class="w-16 h-16 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center mb-3">
+          <i class="fa fa-balance-scale text-3xl text-purple-500"></i>
+        </div>
+        <h3 class="font-bold text-emerald-600 dark:text-emerald-400">Kalkulator Break Even Point</h3>
+        <p class="text-sm text-slate-500 dark:text-slate-300 mt-1">Hitung titik impas bisnis Anda.</p>
       </a>
-      <a href="/business/profit-loss" class="card-hover bg-slate-100 rounded-lg shadow p-5 flex flex-col items-center text-center">
-        <img src="{{ url_for('static', filename='images/image2.jpg') }}" alt="Profit & Loss" class="w-32 h-32 object-cover rounded mb-3" onerror="this.src='https://placehold.co/128?text=LabaRugi'" />
-        <h3 class="font-bold text-emerald-600">Kalkulator Laba Rugi Bisnis</h3>
-        <p class="text-sm text-slate-500 mt-1">Hitung laba atau rugi bisnis Anda.</p>
+      <a href="/business/profit-loss" class="card-hover bg-slate-100 dark:bg-slate-700 rounded-lg shadow p-5 flex flex-col items-center text-center">
+        <div class="w-16 h-16 bg-amber-100 dark:bg-amber-900 rounded-full flex items-center justify-center mb-3">
+          <i class="fa fa-coins text-3xl text-amber-500"></i>
+        </div>
+        <h3 class="font-bold text-emerald-600 dark:text-emerald-400">Kalkulator Laba Rugi Bisnis</h3>
+        <p class="text-sm text-slate-500 dark:text-slate-300 mt-1">Hitung laba atau rugi bisnis Anda.</p>
       </a>
-      <a href="/business/investment" class="card-hover bg-slate-100 rounded-lg shadow p-5 flex flex-col items-center text-center">
-        <img src="{{ url_for('static', filename='images/image4.jpg') }}" alt="Investment" class="w-32 h-32 object-cover rounded mb-3" onerror="this.src='https://placehold.co/128?text=Investasi'" />
-        <h3 class="font-bold text-emerald-600">Kalkulator Penghitung Investasi</h3>
-        <p class="text-sm text-slate-500 mt-1">Proyeksikan nilai investasi Anda di masa depan.</p>
+      <a href="/business/investment" class="card-hover bg-slate-100 dark:bg-slate-700 rounded-lg shadow p-5 flex flex-col items-center text-center">
+        <div class="w-16 h-16 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mb-3">
+          <i class="fa fa-seedling text-3xl text-green-500"></i>
+        </div>
+        <h3 class="font-bold text-emerald-600 dark:text-emerald-400">Kalkulator Penghitung Investasi</h3>
+        <p class="text-sm text-slate-500 dark:text-slate-300 mt-1">Proyeksikan nilai investasi Anda di masa depan dengan grafik.</p>
       </a>
-      <a href="/business/tax" class="card-hover bg-slate-100 rounded-lg shadow p-5 flex flex-col items-center text-center">
-        <img src="{{ url_for('static', filename='images/image2.jpg') }}" alt="Tax" class="w-32 h-32 object-cover rounded mb-3" onerror="this.src='https://placehold.co/128?text=Pajak'" />
-        <h3 class="font-bold text-emerald-600">Kalkulator Pajak Bisnis</h3>
-        <p class="text-sm text-slate-500 mt-1">Hitung pajak penghasilan bisnis Anda.</p>
+      <a href="/business/tax" class="card-hover bg-slate-100 dark:bg-slate-700 rounded-lg shadow p-5 flex flex-col items-center text-center">
+        <div class="w-16 h-16 bg-red-100 dark:bg-red-900 rounded-full flex items-center justify-center mb-3">
+          <i class="fa fa-file-invoice text-3xl text-red-500"></i>
+        </div>
+        <h3 class="font-bold text-emerald-600 dark:text-emerald-400">Kalkulator Pajak Bisnis</h3>
+        <p class="text-sm text-slate-500 dark:text-slate-300 mt-1">Hitung pajak penghasilan bisnis Anda.</p>
       </a>
     </div>
   </div>
