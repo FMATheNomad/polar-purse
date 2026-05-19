@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}PolarPurse | Kalkulator Investasi{% endblock %}
+{% block content %}
+<div class="min-h-screen flex items-center justify-center p-4">
+  <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+    <h1 class="text-2xl font-bold text-emerald-600 mb-4">Kalkulator Penghitung Investasi</h1>
+
+    <div class="space-y-4">
+      <div>
+        <label class="block text-sm font-semibold mb-1">Investasi Awal (Rp)</label>
+        <input type="number" id="initial" class="w-full border rounded px-3 py-2" placeholder="Masukkan jumlah investasi awal" min="0" />
+      </div>
+      <div>
+        <label class="block text-sm font-semibold mb-1">Tingkat Pengembalian Tahunan (%)</label>
+        <input type="number" id="rate" class="w-full border rounded px-3 py-2" placeholder="Contoh: 10" min="0" step="0.1" />
+      </div>
+      <div>
+        <label class="block text-sm font-semibold mb-1">Jangka Waktu (Tahun)</label>
+        <input type="number" id="years" class="w-full border rounded px-3 py-2" placeholder="Contoh: 5" min="1" />
+      </div>
+
+      <button id="calcBtn" class="w-full bg-emerald-500 text-white font-bold py-2 rounded hover:bg-emerald-600 transition">
+        Hitung
+      </button>
+
+      <div id="result" class="hidden bg-emerald-50 border border-emerald-300 rounded p-4 text-center">
+        <p class="text-lg font-bold text-emerald-700" id="resultText"></p>
+        <p class="text-sm text-slate-500 mt-1" id="resultDetail"></p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  document.getElementById("calcBtn").addEventListener("click", async function () {
+    const initial = parseFloat(document.getElementById("initial").value);
+    const rate = parseFloat(document.getElementById("rate").value);
+    const years = parseFloat(document.getElementById("years").value);
+    const result = document.getElementById("result");
+    const resultText = document.getElementById("resultText");
+    const resultDetail = document.getElementById("resultDetail");
+    if (isNaN(initial) || isNaN(rate) || isNaN(years) || initial <= 0) {
+      result.classList.remove("hidden");
+      resultText.textContent = "Masukkan angka yang valid.";
+      resultText.className = "text-lg font-bold text-red-600";
+      resultDetail.textContent = "";
+      return;
+    }
+    const data = await apiPost("/api/calculate/investment", { initial, rate, years });
+    result.classList.remove("hidden");
+    resultText.textContent = "Nilai Investasi: " + data.formatted;
+    resultText.className = "text-lg font-bold text-emerald-700";
+    resultDetail.textContent = "Setelah " + data.years + " tahun dengan bunga " + rate + "% per tahun";
+  });
+});
+</script>
+<script src="{{ url_for('static', filename='js/calculators.js') }}"></script>
+{% endblock %}

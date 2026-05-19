@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}PolarPurse | Kalkulator Pajak{% endblock %}
+{% block content %}
+<div class="min-h-screen flex items-center justify-center p-4">
+  <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+    <h1 class="text-2xl font-bold text-emerald-600 mb-4">Kalkulator Pajak Bisnis</h1>
+
+    <div class="space-y-4">
+      <div>
+        <label class="block text-sm font-semibold mb-1">Pendapatan (Rp)</label>
+        <input type="number" id="revenue" class="w-full border rounded px-3 py-2" placeholder="Masukkan pendapatan" min="0" />
+      </div>
+      <div>
+        <label class="block text-sm font-semibold mb-1">Beban (Rp)</label>
+        <input type="number" id="expenses" class="w-full border rounded px-3 py-2" placeholder="Masukkan beban" min="0" />
+      </div>
+
+      <button id="calcBtn" class="w-full bg-emerald-500 text-white font-bold py-2 rounded hover:bg-emerald-600 transition">
+        Hitung
+      </button>
+
+      <div id="result" class="hidden bg-emerald-50 border border-emerald-300 rounded p-4 text-center">
+        <p class="text-lg font-bold text-emerald-700" id="resultText"></p>
+        <p class="text-sm text-slate-500 mt-1" id="resultDetail"></p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  document.getElementById("calcBtn").addEventListener("click", async function () {
+    const revenue = parseFloat(document.getElementById("revenue").value);
+    const expenses = parseFloat(document.getElementById("expenses").value);
+    const result = document.getElementById("result");
+    const resultText = document.getElementById("resultText");
+    const resultDetail = document.getElementById("resultDetail");
+    if (isNaN(revenue) || isNaN(expenses)) {
+      result.classList.remove("hidden");
+      resultText.textContent = "Masukkan angka yang valid.";
+      resultText.className = "text-lg font-bold text-red-600";
+      resultDetail.textContent = "";
+      return;
+    }
+    const data = await apiPost("/api/calculate/tax", { revenue, expenses });
+    result.classList.remove("hidden");
+    resultText.textContent = "Pajak: " + data.formatted;
+    resultText.className = "text-lg font-bold text-emerald-700";
+    resultDetail.textContent = "Pendapatan kena pajak: Rp " + data.taxable_income.toLocaleString("id-ID");
+  });
+});
+</script>
+<script src="{{ url_for('static', filename='js/calculators.js') }}"></script>
+{% endblock %}

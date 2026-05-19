@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}PolarPurse | Kalkulator BEP{% endblock %}
+{% block content %}
+<div class="min-h-screen flex items-center justify-center p-4">
+  <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+    <h1 class="text-2xl font-bold text-emerald-600 mb-4">Kalkulator Break Even Point</h1>
+
+    <div class="space-y-4">
+      <div>
+        <label class="block text-sm font-semibold mb-1">Biaya Tetap (Fixed Costs)</label>
+        <input type="number" id="fixedCosts" class="w-full border rounded px-3 py-2" placeholder="Masukkan biaya tetap" min="0" />
+      </div>
+      <div>
+        <label class="block text-sm font-semibold mb-1">Biaya Variabel per Unit</label>
+        <input type="number" id="variableCosts" class="w-full border rounded px-3 py-2" placeholder="Masukkan biaya variabel per unit" min="0" />
+      </div>
+
+      <button id="calcBtn" class="w-full bg-emerald-500 text-white font-bold py-2 rounded hover:bg-emerald-600 transition">
+        Hitung
+      </button>
+
+      <div id="result" class="hidden bg-emerald-50 border border-emerald-300 rounded p-4 text-center">
+        <p class="text-lg font-bold text-emerald-700" id="resultText"></p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const btn = document.getElementById("calcBtn");
+  const result = document.getElementById("result");
+  const resultText = document.getElementById("resultText");
+
+  btn.addEventListener("click", async function () {
+    const fixed = parseFloat(document.getElementById("fixedCosts").value);
+    const variable = parseFloat(document.getElementById("variableCosts").value);
+    if (!fixed || fixed <= 0 || !variable || variable <= 0) {
+      result.classList.remove("hidden");
+      resultText.textContent = "Masukkan angka yang valid.";
+      resultText.className = "text-lg font-bold text-red-600";
+      return;
+    }
+    const data = await apiPost("/api/calculate/bep", {
+      fixed_costs: fixed, variable_costs: variable
+    });
+    if (data.error) {
+      result.classList.remove("hidden");
+      resultText.textContent = data.error;
+      resultText.className = "text-lg font-bold text-red-600";
+      return;
+    }
+    result.classList.remove("hidden");
+    resultText.textContent = "Break Even Point: " + data.bep + " unit";
+    resultText.className = "text-lg font-bold text-emerald-700";
+  });
+});
+</script>
+<script src="{{ url_for('static', filename='js/calculators.js') }}"></script>
+{% endblock %}
